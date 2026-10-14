@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-14",
+  "method": "Visible Chrome UI through Cua; responsive layout in embedded CSS viewports",
+  "physical_device_tested": false,
+  "cross_browser_tested": false,
+  "category_filter_count": 2,
+  "combined_category_search_count": 1,
+  "no_match_count": 0,
+  "reset_count": 8,
+  "demo_contact_open_and_close": true,
+  "mobile_category_count": 2,
+  "mobile_reset_count": 8,
+  "layouts": [
+    {"css_viewport_width":390,"document_client_width":375,"document_scroll_width":375,"horizontal_overflow":false},
+    {"css_viewport_width":768,"document_client_width":753,"document_scroll_width":753,"horizontal_overflow":false},
+    {"css_viewport_width":1280,"document_client_width":1280,"document_scroll_width":1280,"horizontal_overflow":false}
+  ],
+  "fictional_products": 8,
+  "external_resources": 0,
+  "payments_or_messages_sent_by_demo": false,
+  "cms_implemented": false
+}

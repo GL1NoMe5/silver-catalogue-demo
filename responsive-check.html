@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Silver Studio — Responsive preview</title>
+  <style>
+    body{margin:0;padding:24px;background:#eceeea;color:#243e35;font:15px Arial,sans-serif}
+    nav{display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+    button{padding:10px 16px;border:1px solid #355a4e;background:white;color:inherit;cursor:pointer}
+    #frame-shell{width:max-content;margin:auto;background:white;box-shadow:0 3px 20px #1d362b20}
+    iframe{display:block;border:0;width:390px;height:844px}
+    p{margin:12px;text-align:center}
+  </style>
+</head>
+<body>
+  <nav aria-label="Preview width">
+    <strong>Fictional catalogue — responsive layout check</strong>
+    <button type="button" data-width="390">390px mobile layout</button>
+    <button type="button" data-width="768">768px tablet layout</button>
+    <button type="button" data-width="1280">1280px desktop layout</button>
+  </nav>
+  <div id="frame-shell"><iframe title="Catalogue preview" src="index.html"></iframe></div>
+  <p id="preview-status" role="status">Embedded CSS viewport: 390px × 844px. This is a layout preview, not a physical-device test.</p>
+  <script>
+    const frame = document.querySelector('iframe');
+    document.querySelectorAll('[data-width]').forEach(button => button.addEventListener('click', () => {
+      const width = Number(button.dataset.width);
+      frame.style.width = width + 'px';
+      const height = width >= 1000 ? 1500 : 844;
+      frame.style.height = height + 'px';
+      document.getElementById('preview-status').textContent = `Embedded CSS viewport: ${width}px × ${height}px. This is a layout preview, not a physical-device test.`;
+    }));
+  </script>
+</body>
+</html>

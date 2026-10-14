@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f2eb">
+  <title>Silver Studio — Catalogue demo</title>
+  <style>
+    :root { --paper:#f5f2eb; --ink:#282d2b; --muted:#69716b; --line:#d8ddd6; --green:#36564b; --card:#e9eeea; --serif:Georgia,"Times New Roman",serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+    button,input { font:inherit; }
+    button { cursor:pointer; }
+    a { color:inherit; }
+    .demo-banner { padding:12px 24px; background:var(--green); color:#fff; text-align:center; font-size:12px; letter-spacing:.04em; line-height:1.5; }
+    .wrap { max-width:1440px; margin:auto; padding:0 64px; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:28px 0; border-bottom:1px solid var(--line); }
+    .wordmark { font-family:var(--serif); font-size:27px; font-weight:normal; letter-spacing:-.6px; }
+    .header-right { display:flex; align-items:center; gap:28px; font-size:12px; }
+    .header-note { color:var(--muted); }
+    .enquire { border:1px solid var(--green); background:transparent; color:var(--green); padding:11px 16px; border-radius:2px; }
+    .enquire:hover { background:var(--green); color:white; }
+    .hero { display:grid; grid-template-columns:1.2fr .8fr; gap:60px; align-items:end; padding:69px 0 59px; }
+    .eyebrow { margin:0 0 18px; color:var(--green); font-size:11px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { margin:0; font:normal clamp(44px,5.4vw,77px)/1.02 var(--serif); letter-spacing:-2.5px; }
+    h1 em { font-weight:normal; color:var(--green); }
+    .hero-copy { padding-bottom:5px; max-width:380px; justify-self:end; }
+    .hero-copy p { margin:0; font-size:15px; line-height:1.7; color:var(--muted); }
+    .hero-copy .fictional { margin-top:19px; font-size:11px; color:var(--green); }
+    .toolbar { display:flex; align-items:center; justify-content:space-between; gap:24px; padding-bottom:22px; border-bottom:1px solid var(--line); }
+    .filters { display:flex; flex-wrap:wrap; align-items:center; gap:7px; }
+    .filter { padding:10px 17px; border:1px solid transparent; border-radius:2px; color:var(--muted); background:transparent; font-size:13px; }
+    .filter:hover { border-color:var(--line); color:var(--ink); }
+    .filter[aria-pressed="true"] { color:white; background:var(--green); border-color:var(--green); }
+    .search { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid #acb5ae; min-width:250px; }
+    .search svg { flex:none; width:17px; height:17px; color:var(--muted); }
+    .search input { width:100%; border:0; outline:none; background:transparent; color:var(--ink); font-size:13px; }
+    .search:focus-within { border-color:var(--green); box-shadow:0 1px var(--green); }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    .results-meta { display:flex; justify-content:space-between; gap:20px; padding:24px 0 20px; color:var(--muted); font-size:11px; }
+    .grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); column-gap:21px; row-gap:35px; }
+    .product { min-width:0; }
+    .art { position:relative; aspect-ratio:1/1.09; background:var(--card); overflow:hidden; }
+    .art svg { width:100%; height:100%; display:block; transition:transform .35s ease; }
+    .product:hover .art svg { transform:scale(1.035); }
+    .sample-label { position:absolute; left:14px; top:14px; font-size:9px; letter-spacing:.12em; color:#758378; }
+    .product-info { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding-top:14px; }
+    .product h2 { margin:0 0 7px; font:normal 20px/1.2 var(--serif); }
+    .category-label { margin:0; color:var(--muted); font-size:11px; text-transform:capitalize; }
+    .price { text-align:right; flex:none; font-size:13px; padding-top:2px; white-space:nowrap; }
+    .price small { display:block; margin-top:7px; font-size:9px; color:var(--muted); }
+    .empty { grid-column:1/-1; margin:0; padding:55px 0; text-align:center; color:var(--muted); line-height:1.7; }
+    .reset { margin-top:18px; border:0; border-bottom:1px solid var(--green); padding:4px 0; color:var(--green); background:none; }
+    .catalogue-note { margin:38px 0 0; font-size:11px; color:var(--muted); line-height:1.7; }
+    footer { margin-top:54px; padding:27px 0 33px; border-top:1px solid var(--line); display:flex; justify-content:space-between; gap:24px; font-size:11px; color:var(--muted); line-height:1.5; }
+    footer p { margin:0; }
+    dialog { max-width:440px; width:calc(100% - 40px); border:1px solid var(--line); background:var(--paper); color:var(--ink); padding:32px; border-radius:4px; }
+    dialog::backdrop { background:rgba(26,40,34,.4); }
+    dialog h2 { margin:0 0 15px; font:normal 31px var(--serif); }
+    dialog p { color:var(--muted); font-size:14px; line-height:1.7; }
+    .close { margin-top:10px; padding:10px 17px; border:1px solid var(--green); background:var(--green); color:white; }
+    button:focus-visible { outline:3px solid #d89a61; outline-offset:4px; }
+    @media(max-width:1100px) { .wrap { padding:0 36px; } .hero { gap:36px; } .grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .filter { padding:9px 12px; } }
+    @media(max-width:800px) { .hero { grid-template-columns:1fr; padding:44px 0 38px; gap:24px; } .hero-copy { justify-self:start; max-width:520px; } .hero-copy .fictional { margin-top:10px; } .toolbar { align-items:stretch; flex-direction:column; gap:14px; } .search { width:100%; min-width:0; } .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .header-note { display:none; } }
+    @media(max-width:480px) { .wrap { padding:0 20px; } header { padding:21px 0; } .wordmark { font-size:24px; } .enquire { font-size:10px; padding:9px 10px; } .demo-banner { padding:10px 15px; font-size:10px; } h1 { letter-spacing:-1.6px; } .filters { gap:3px; } .filter { padding:9px 10px; font-size:11px; } .grid { gap:25px 12px; } .product-info { display:block; } .product h2 { font-size:18px; } .price { margin-top:10px; text-align:left; font-size:12px; } .price small { display:inline; margin-left:6px; } .sample-label { left:9px; top:10px; font-size:8px; } .results-meta { font-size:10px; } footer { flex-direction:column; gap:10px; margin-top:38px; } }
+    @media(prefers-reduced-motion:reduce) { .art svg { transition:none; } .product:hover .art svg { transform:none; } }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">SELF-INITIATED CATALOGUE DEMO · FICTIONAL PRODUCTS</div>
+  <div class="wrap">
+    <header>
+      <div class="wordmark">Silver Studio</div>
+      <div class="header-right"><span class="header-note">An imagined jewellery collection</span><button class="enquire" type="button" id="contact-open">Demo contact</button></div>
+    </header>
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div><p class="eyebrow">The everyday edit</p><h1 id="page-title">Small details.<br><em>Quiet character.</em></h1></div>
+        <div class="hero-copy"><p>Explore an imagined collection of silver jewellery. Simple forms, soft curves and a little room for individuality.</p><p class="fictional">Original vector illustrations. Every product and price is fictional.</p></div>
+      </section>
+      <section aria-label="Product catalogue">
+        <div class="toolbar">
+          <div class="filters" role="group" aria-label="Filter products by category">
+            <button type="button" class="filter" data-category="all" aria-pressed="true">All pieces</button>
+            <button type="button" class="filter" data-category="payals" aria-pressed="false">Silver Payals</button>
+            <button type="button" class="filter" data-category="chains" aria-pressed="false">Silver Chains</button>
+            <button type="button" class="filter" data-category="bracelets" aria-pressed="false">Silver Bracelets</button>
+            <button type="button" class="filter" data-category="other" aria-pressed="false">Other Jewellery</button>
+          </div>
+          <label class="search"><span class="sr-only">Search fictional jewellery by name or category</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="m16 16 5 5" stroke="currentColor" stroke-width="1.5"/></svg><input id="search" type="search" placeholder="Search the collection" autocomplete="off" maxlength="100"></label>
+        </div>
+        <div class="results-meta"><span id="result-count" role="status" aria-live="polite">8 pieces</span><span>Illustrated sample collection</span></div>
+        <div class="grid" id="products"></div>
+        <noscript><p>Enable JavaScript to view and filter this fictional sample collection.</p></noscript>
+        <p class="catalogue-note">Frontend demonstration only. These pieces are not available to order. The catalogue does not take payments or send enquiries.</p>
+      </section>
+    </main>
+    <footer><p>Silver Studio<br>Self-initiated catalogue demo</p><p>Fictional brand, products and prices<br>No store or checkout</p></footer>
+  </div>
+  <dialog id="contact-dialog" aria-labelledby="contact-title">
+    <h2 id="contact-title">Demo contact</h2>
+    <p>This is a placeholder for a future enquiry form. No contact details are collected and no message is sent.</p>
+    <button class="close" type="button" id="contact-close">Back to the collection</button>
+  </dialog>
+  <script>
+    'use strict';
+    // Original fictional product catalogue. No network requests or stored user data.
+    const inventory = [
+      { id:'orbit', name:'Orbit Anklet', category:'payals', price:1450, art:'anklet' },
+      { id:'linen', name:'Linen Hoops', category:'other', price:2200, art:'hoops' },
+      { id:'pebble', name:'Pebble Chain', category:'chains', price:2850, art:'pendant' },
+      { id:'arc', name:'Arc Cuff', category:'bracelets', price:2650, art:'cuff' },
+      { id:'tide', name:'Tide Anklet', category:'payals', price:1750, art:'double-anklet' },
+      { id:'droplet', name:'Droplet Earrings', category:'other', price:1950, art:'drops' },
+      { id:'still', name:'Still Chain', category:'chains', price:3100, art:'chain' },
+      { id:'bead', name:'Bead Bracelet', category:'bracelets', price:2450, art:'beads' }
+    ];
+    let activeCategory = 'all';
+    let query = '';
+    const categoryNames = { payals:'Silver payals / anklets', chains:'Silver chains', bracelets:'Silver bracelets', other:'Other jewellery' };
+    const grid = document.getElementById('products');
+    const search = document.getElementById('search');
+    const priceFormat = new Intl.NumberFormat('en-IN', { style:'currency', currency:'INR', maximumFractionDigits:0 });
+
+    function illustration(product) {
+      const metal = `url(#metal-${product.id})`;
+      const stroke = `stroke="${metal}" stroke-linecap="round" stroke-linejoin="round"`;
+      let form = '';
+      if (product.art === 'anklet') {
+        const charms = [112,145,178,211].map((x,i) => `<path d="M${x} ${221+(i===0||i===3?-8:0)}v17" fill="none" ${stroke} stroke-width="2"/><circle cx="${x}" cy="${246+(i===0||i===3?-8:0)}" r="7" fill="${metal}" stroke="#a3afa6" stroke-width="1"/>`).join('');
+        form = `<ellipse cx="160" cy="176" rx="91" ry="55" fill="none" stroke="#9aa89e" stroke-width="5"/><ellipse cx="160" cy="174" rx="91" ry="55" fill="none" ${stroke} stroke-width="3.5"/><path d="M245 148l14-13 7 4-13 17" fill="none" ${stroke} stroke-width="3"/>${charms}`;
+      } else if (product.art === 'hoops') {
+        form = `<g transform="rotate(-10 112 183)"><ellipse cx="111" cy="183" rx="32" ry="55" fill="none" stroke="#7b8880" stroke-width="10"/><ellipse cx="110" cy="180" rx="32" ry="55" fill="none" ${stroke} stroke-width="8"/><path d="M107 123v-13" ${stroke} stroke-width="5"/></g><g transform="rotate(10 211 183)"><ellipse cx="212" cy="183" rx="32" ry="55" fill="none" stroke="#7b8880" stroke-width="10"/><ellipse cx="211" cy="180" rx="32" ry="55" fill="none" ${stroke} stroke-width="8"/><path d="M215 123v-13" ${stroke} stroke-width="5"/></g>`;
+      } else if (product.art === 'pendant') {
+        form = `<path d="M66 84 Q63 197 154 221 Q247 197 255 84" fill="none" ${stroke} stroke-width="3"/><ellipse cx="155" cy="247" rx="21" ry="30" transform="rotate(12 155 247)" fill="${metal}" stroke="#96a29a" stroke-width="1.5"/><ellipse cx="155" cy="220" rx="5" ry="7" fill="none" ${stroke} stroke-width="3"/><path d="M149 229 Q135 248 147 265" fill="none" stroke="#fff" stroke-width="2" opacity=".8"/>`;
+      } else if (product.art === 'cuff') {
+        form = `<path d="M119 235 C59 213 75 126 157 125 C239 124 262 208 209 235" fill="none" stroke="#8e9992" stroke-width="20"/><path d="M117 232 C63 209 79 130 157 130 C233 130 255 204 211 231" fill="none" ${stroke} stroke-width="17"/><ellipse cx="117" cy="232" rx="8" ry="10" transform="rotate(-31 117 232)" fill="${metal}"/><ellipse cx="211" cy="231" rx="8" ry="10" transform="rotate(31 211 231)" fill="${metal}"/>`;
+      } else if (product.art === 'double-anklet') {
+        const bells = [98,128,160,192,222].map((x,i) => `<path d="M${x} ${218-Math.abs(i-2)*5}v16" fill="none" ${stroke} stroke-width="2"/><ellipse cx="${x}" cy="${242-Math.abs(i-2)*5}" rx="6" ry="8" fill="${metal}" stroke="#9caaa0" stroke-width="1"/>`).join('');
+        form = `<ellipse cx="160" cy="177" rx="90" ry="47" fill="none" ${stroke} stroke-width="4"/><ellipse cx="160" cy="187" rx="91" ry="46" fill="none" ${stroke} stroke-width="3"/><path d="M71 166l-8-18 7-5 12 19" fill="none" ${stroke} stroke-width="3"/>${bells}`;
+      } else if (product.art === 'drops') {
+        form = `<path d="M112 119c-15-16-24 2-12 15" fill="none" ${stroke} stroke-width="3"/><path d="M110 138C104 155 80 182 84 206C89 233 132 233 137 206C141 182 117 156 110 138Z" fill="${metal}" stroke="#8b9790" stroke-width="1"/><path d="M212 119c-15-16-24 2-12 15" fill="none" ${stroke} stroke-width="3"/><path d="M210 138C204 155 180 182 184 206C189 233 232 233 237 206C241 182 217 156 210 138Z" fill="${metal}" stroke="#8b9790" stroke-width="1"/><path d="M104 164 Q87 204 106 221M204 164 Q187 204 206 221" fill="none" stroke="#fff" stroke-width="2.5" opacity=".7"/>`;
+      } else if (product.art === 'chain') {
+        form = `<path d="M66 84 C61 253 260 253 254 84" fill="none" ${stroke} stroke-width="5"/><path d="M62 91 C64 233 251 239 258 91" fill="none" stroke="#fff" stroke-width="1" opacity=".8"/><rect x="133" y="212" width="58" height="8" rx="4" fill="${metal}" transform="rotate(-3 162 216)"/>`;
+      } else if (product.art === 'beads') {
+        const beads = Array.from({length:20}, (_,i) => {
+          const a = i * Math.PI * 2 / 20;
+          const x = (160 + Math.cos(a) * 72).toFixed(2);
+          const y = (184 + Math.sin(a) * 53).toFixed(2);
+          return `<circle cx="${x}" cy="${y}" r="7" fill="${metal}" stroke="#9ba79f" stroke-width=".8"/>`;
+        }).join('');
+        form = `<ellipse cx="160" cy="184" rx="72" ry="53" fill="none" stroke="#91a096" stroke-width="2"/>${beads}<ellipse cx="225" cy="161" rx="9" ry="6" fill="none" ${stroke} stroke-width="2.5"/>`;
+      }
+      return `<svg viewBox="0 0 320 350" role="img" aria-label="Original illustration of fictional ${product.name}"><defs><linearGradient id="metal-${product.id}" x1="0" x2="1" y1="0" y2=".9"><stop offset="0" stop-color="#7c8c80"/><stop offset=".2" stop-color="#edf1ed"/><stop offset=".4" stop-color="#bcc8bf"/><stop offset=".6" stop-color="#fff"/><stop offset=".77" stop-color="#9aaba0"/><stop offset="1" stop-color="#d8e0da"/></linearGradient><radialGradient id="shadow-${product.id}"><stop offset="0" stop-color="#9daea0" stop-opacity=".25"/><stop offset="1" stop-color="#9daea0" stop-opacity="0"/></radialGradient></defs><ellipse cx="160" cy="277" rx="102" ry="26" fill="url(#shadow-${product.id})"/>${form}</svg>`;
+    }
+
+    function render() {
+      const items = inventory.filter(product => (activeCategory === 'all' || product.category === activeCategory) && `${product.name} ${categoryNames[product.category]}`.toLowerCase().includes(query));
+      document.getElementById('result-count').textContent = `${items.length} ${items.length === 1 ? 'piece' : 'pieces'}`;
+      grid.innerHTML = items.length ? items.map(product => `<article class="product"><div class="art"><span class="sample-label">FICTIONAL PIECE</span>${illustration(product)}</div><div class="product-info"><div><h2>${product.name}</h2><p class="category-label">${categoryNames[product.category]}</p></div><div class="price">${priceFormat.format(product.price)}<small>Demo price</small></div></div></article>`).join('') : '<div class="empty"><p>No fictional pieces match your search.</p><button type="button" class="reset" id="reset-filters">Reset filters</button></div>';
+      const reset = document.getElementById('reset-filters');
+      if (reset) reset.addEventListener('click', resetFilters);
+    }
+    function resetFilters() {
+      activeCategory = 'all'; query = ''; search.value = '';
+      document.querySelectorAll('.filter').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.category === 'all')));
+      render();
+    }
+    document.querySelectorAll('.filter').forEach(button => button.addEventListener('click', () => {
+      activeCategory = button.dataset.category;
+      document.querySelectorAll('.filter').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      render();
+    }));
+    search.addEventListener('input', () => { query = search.value.trim().toLowerCase(); render(); });
+    const contactDialog = document.getElementById('contact-dialog');
+    document.getElementById('contact-open').addEventListener('click', () => contactDialog.showModal());
+    document.getElementById('contact-close').addEventListener('click', () => contactDialog.close());
+    contactDialog.addEventListener('click', event => { if (event.target === contactDialog) { const box = contactDialog.getBoundingClientRect(); if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) contactDialog.close(); } });
+    render();
+  </script>
+</body>
+</html>
